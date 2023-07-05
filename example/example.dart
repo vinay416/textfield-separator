@@ -17,7 +17,7 @@ class Example extends StatelessWidget {
         ),
         body: Center(
           child: SeparatedTextField(
-            charCount: 1,
+            charCount: 4,
             textfieldCount: 3,
             onSubmit: (value) {
               debugPrint(value);
