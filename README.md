@@ -23,13 +23,13 @@ SeparatedTextField(
               debugPrint(value);
             },
           ),
-```
+````
 
 
 
 **All properties of the widget**
 
-```
+````
 const SeparatedTextField({
     this.charCount = 1,   // define char count want in a textfield (default: 1)
     required this.textfieldCount,   // define count of textfield
@@ -42,5 +42,5 @@ const SeparatedTextField({
     this.textFieldSeparator, // provide 'Widget' for spacing between textfield (default: SizedBox(width: 20) )
     super.key, // key for widget
   });
-  
+
 ````
