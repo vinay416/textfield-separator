@@ -17,6 +17,9 @@ class TextFieldItem extends StatelessWidget {
     required this.fillColor,
     required this.width,
     required this.borderSide,
+    required this.hintStyle,
+    required this.hintText,
+    required this.textStyle,
     super.key,
   });
   final List<TextEditingController> controllerList;
@@ -31,6 +34,9 @@ class TextFieldItem extends StatelessWidget {
   final Color? fillColor;
   final BorderRadius? borderRadius;
   final BorderSide? borderSide;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,7 @@ class TextFieldItem extends StatelessWidget {
     return SizedBox(
       width: width ?? (50.0 + (charCount * 10)),
       child: TextField(
+        style: textStyle,
         controller: controller,
         focusNode: focusNode,
         onChanged: onChanged,
@@ -49,6 +56,8 @@ class TextFieldItem extends StatelessWidget {
         ],
         textAlign: TextAlign.center,
         decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: hintStyle,
           border: border ??
               OutlineInputBorder(
                 borderSide: borderSide?? const BorderSide(),

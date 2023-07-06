@@ -14,6 +14,9 @@ class SeparatedTextField extends StatelessWidget {
     this.width,
     this.borderSide,
     this.textFieldSeparator,
+    this.hintStyle,
+    this.hintText,
+    this.textStyle,
     super.key,
   });
 
@@ -26,6 +29,9 @@ class SeparatedTextField extends StatelessWidget {
   final BorderRadius? borderRadius;
   final BorderSide? borderSide;
   final Widget? textFieldSeparator;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +45,9 @@ class SeparatedTextField extends StatelessWidget {
       width: width,
       textFieldSeparator: textFieldSeparator,
       onSubmit: onSubmit,
+      hintStyle: hintStyle,
+      hintText: hintText,
+      textStyle: textStyle,
     );
   }
 }

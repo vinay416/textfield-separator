@@ -14,6 +14,9 @@ class TextFieldBuilder extends StatefulWidget {
     required this.width,
     required this.borderSide,
     required this.textFieldSeparator,
+    required this.hintStyle,
+    required this.hintText,
+    required this.textStyle,
     super.key,
   });
   final int textfieldCount;
@@ -25,6 +28,9 @@ class TextFieldBuilder extends StatefulWidget {
   final BorderRadius? borderRadius;
   final BorderSide? borderSide;
   final Widget? textFieldSeparator;
+  final String? hintText;
+  final TextStyle? hintStyle;
+  final TextStyle? textStyle;
 
   @override
   State<TextFieldBuilder> createState() => _TextFieldBuilderState();
@@ -75,6 +81,9 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
                 borderRadius: widget.borderRadius,
                 fillColor: widget.fillColor,
                 borderSide: widget.borderSide,
+                hintStyle: widget.hintStyle,
+                hintText: widget.hintText,
+                textStyle: widget.textStyle,
                 onChanged: (value) {
                   resultList[index] = value;
                   changeFocusToNextNodeWhenValueIsEntered(
@@ -88,8 +97,8 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
                   onSubmit(value: value);
                 },
               ),
-              if (index != 0 || index < widget.textfieldCount - 1)
-                const SizedBox(width: 20),
+              if (index < widget.textfieldCount - 1)
+                widget.textFieldSeparator ?? const SizedBox(width: 20),
             ],
           );
         },
@@ -99,6 +108,7 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
 
   void onSubmit({required String value}) {
     final result = resultList.join().trim();
+    // callback with final result
     widget.onSubmit(result);
   }
 
@@ -136,5 +146,21 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
       final focusNode = focusNodeList[indexOfTextField - 1];
       FocusScope.of(context).requestFocus(focusNode);
     }
+  }
+
+  @override
+  void dispose() {
+    disposeControllers();
+    super.dispose();
+  }
+
+  void disposeControllers() {
+    for (var element in controllerList) {
+      element.dispose();
+    }
+    for (var element in focusNodeList) {
+      element.dispose();
+    }
+    resultList.clear();
   }
 }
