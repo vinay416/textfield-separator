@@ -85,16 +85,7 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
                 hintText: widget.hintText,
                 textStyle: widget.textStyle,
                 onChanged: (value) {
-                  resultList[index] = value;
-                  changeFocusToNextNodeWhenValueIsEntered(
-                    value: value,
-                    indexOfTextField: index,
-                  );
-                  changeFocusToPreviousNodeWhenValueIsRemoved(
-                    value: value,
-                    indexOfTextField: index,
-                  );
-                  onSubmit(value: value);
+                  setValueToTextField(value, index);
                 },
               ),
               if (index < widget.textfieldCount - 1)
@@ -106,9 +97,46 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
     );
   }
 
-  void onSubmit({required String value}) {
+  setValueToTextField(String value, int index) {
+    if (value.length <= widget.charCount) {
+      // set result array till charCount length
+      resultList[index] = value;
+      // change focus to previous textfield
+      changeFocusToPreviousNodeWhenValueIsRemoved(
+        value: value,
+        indexOfTextField: index,
+      );
+    } else if (value.length > widget.charCount) {
+      // set the previous textfield text by substring
+      final newValue = value.substring(0, widget.charCount);
+      final controller = controllerList[index];
+      controller.text = newValue;
+      controller.selection = TextSelection.collapsed(
+        offset: controller.text.length,
+      );
+      // if not the last textfield
+      // set value to the next Textfield
+      if (index + 1 < widget.textfieldCount) {
+        final newValue = value.substring(widget.charCount);
+        final nextController = controllerList[index + 1];
+        nextController.text = newValue;
+        nextController.selection = TextSelection.collapsed(
+          offset: nextController.text.length,
+        );
+        resultList[index + 1] = newValue;
+      }
+      // set focus to next textfield
+      changeFocusToNextNodeWhenValueIsEntered(
+        value: value,
+        indexOfTextField: index,
+      );
+    }
+    // callback of the result data
+    onSubmit();
+  }
+
+  void onSubmit() {
     final result = resultList.join().trim();
-    // callback with final result
     widget.onSubmit(result);
   }
 

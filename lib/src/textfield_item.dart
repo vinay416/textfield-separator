@@ -52,7 +52,7 @@ class TextFieldItem extends StatelessWidget {
         keyboardType: TextInputType.number,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(charCount),
+          // LengthLimitingTextInputFormatter(charCount),
         ],
         textAlign: TextAlign.center,
         decoration: InputDecoration(
