@@ -129,15 +129,21 @@ class _SeparatedTextFieldState extends State<SeparatedTextField> {
   }
 
   void setValueToTextField(String value, int index) {
-    if (value.length <= widget.charCount) {
-      // set result array till charCount length
+    if (value.length < widget.charCount) {
+      // set result array
       resultList[index] = value;
       // change focus to previous textfield
       changeFocusToPreviousNodeWhenValueIsRemoved(
         value: value,
         indexOfTextField: index,
       );
-    }  else if (value.length > widget.charCount) {
+    } else if (value.length == widget.charCount) {
+      // set result array
+      resultList[index] = value;
+      if (index == widget.textfieldCount - 1) {
+        focusNodeList[index].unfocus();
+      }
+    } else if (value.length > widget.charCount) {
       // set the previous textfield text by substring
       final newValue = value.substring(0, widget.charCount);
       final controller = controllerList[index];
@@ -154,6 +160,7 @@ class _SeparatedTextFieldState extends State<SeparatedTextField> {
         nextController.selection = TextSelection.collapsed(
           offset: nextController.text.length,
         );
+        // set result array
         resultList[index + 1] = newValue;
       }
       // set focus to next textfield
@@ -175,18 +182,11 @@ class _SeparatedTextFieldState extends State<SeparatedTextField> {
     required String value,
     required int indexOfTextField,
   }) {
-    // return func if textfield is empty
-    if (value.length < widget.charCount) {
-      return;
-    }
     //if the textField in focus is not the last textField,
     if (indexOfTextField + 1 != widget.textfieldCount) {
       //change focus to the next textField
       final focusNode = focusNodeList[indexOfTextField + 1];
       FocusScope.of(context).requestFocus(focusNode);
-    } else {
-      //if the last textField, unFocus after text changed
-      focusNodeList[indexOfTextField].unfocus();
     }
   }
 
