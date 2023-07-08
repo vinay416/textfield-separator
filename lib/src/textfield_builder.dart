@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:separated_textfield/src/textfield_item.dart';
+import 'package:flutter/services.dart';
 
 typedef OnSubmit = void Function(String value);
 
@@ -69,33 +69,51 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
         (index) {
           return Row(
             children: [
-              TextFieldItem(
-                controllerList: controllerList,
-                focusNodeList: focusNodeList,
-                resultList: resultList,
-                index: index,
-                textfieldCount: widget.textfieldCount,
-                charCount: widget.charCount,
-                width: widget.width,
-                border: widget.border,
-                borderRadius: widget.borderRadius,
-                fillColor: widget.fillColor,
-                borderSide: widget.borderSide,
-                hintStyle: widget.hintStyle,
-                hintText: widget.hintText,
-                textStyle: widget.textStyle,
-                onChanged: (value) {
-                  setValueToTextField(value, index);
-                },
-                onTap: () => onTap(index),
-              ),
-              if (index < widget.textfieldCount - 1)
-                widget.textFieldSeparator ?? const SizedBox(width: 20),
+              buildTextField(index),
+              textFieldSeparator(index),
             ],
           );
         },
       ),
     );
+  }
+
+  Widget buildTextField(int index) {
+    return SizedBox(
+      width: widget.width ?? (50.0 + (widget.charCount * 10)),
+      child: TextField(
+        style: widget.textStyle,
+        controller: controllerList[index],
+        focusNode: focusNodeList[index],
+        onChanged: (value) {
+          setValueToTextField(value, index);
+        },
+        onTap: () => onTap(index),
+        keyboardType: TextInputType.number,
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+        ],
+        textAlign: TextAlign.center,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          hintStyle: widget.hintStyle,
+          border: widget.border ??
+              OutlineInputBorder(
+                borderSide: widget.borderSide ?? const BorderSide(),
+                borderRadius: widget.borderRadius ?? BorderRadius.circular(4),
+              ),
+          fillColor: widget.fillColor,
+          filled: widget.fillColor != null,
+        ),
+      ),
+    );
+  }
+
+  Widget textFieldSeparator(int index) {
+    if (index < widget.textfieldCount - 1) {
+      return widget.textFieldSeparator ?? const SizedBox(width: 20);
+    }
+    return const SizedBox.shrink();
   }
 
   void onTap(int index) {
