@@ -87,6 +87,7 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
                 onChanged: (value) {
                   setValueToTextField(value, index);
                 },
+                onTap: () => onTap(index),
               ),
               if (index < widget.textfieldCount - 1)
                 widget.textFieldSeparator ?? const SizedBox(width: 20),
@@ -97,7 +98,19 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
     );
   }
 
-  setValueToTextField(String value, int index) {
+  void onTap(int index) {
+    if (index == 0) return;
+
+    for (var i = 1; i < widget.textfieldCount; i++) {
+      final text = controllerList[i - 1].text;
+      if (text.length < widget.charCount) {
+        focusNodeList[i - 1].requestFocus();
+        break;
+      }
+    }
+  }
+
+  void setValueToTextField(String value, int index) {
     if (value.length <= widget.charCount) {
       // set result array till charCount length
       resultList[index] = value;

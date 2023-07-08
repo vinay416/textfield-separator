@@ -20,6 +20,7 @@ class TextFieldItem extends StatelessWidget {
     required this.hintStyle,
     required this.hintText,
     required this.textStyle,
+    required this.onTap,
     super.key,
   });
   final List<TextEditingController> controllerList;
@@ -37,6 +38,7 @@ class TextFieldItem extends StatelessWidget {
   final String? hintText;
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +51,10 @@ class TextFieldItem extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         onChanged: onChanged,
+        onTap: onTap,
         keyboardType: TextInputType.number,
         inputFormatters: [
           FilteringTextInputFormatter.digitsOnly,
-          // LengthLimitingTextInputFormatter(charCount),
         ],
         textAlign: TextAlign.center,
         decoration: InputDecoration(
@@ -60,7 +62,7 @@ class TextFieldItem extends StatelessWidget {
           hintStyle: hintStyle,
           border: border ??
               OutlineInputBorder(
-                borderSide: borderSide?? const BorderSide(),
+                borderSide: borderSide ?? const BorderSide(),
                 borderRadius: borderRadius ?? BorderRadius.circular(4),
               ),
           fillColor: fillColor,
