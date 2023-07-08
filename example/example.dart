@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:separated_textfield/separated_textfield.dart';
+import 'package:separated_textfield/separated_library.dart';
 
 void main() {
   runApp(const Example());

@@ -3,20 +3,20 @@ import 'package:flutter/services.dart';
 
 typedef OnSubmit = void Function(String value);
 
-class TextFieldBuilder extends StatefulWidget {
-  const TextFieldBuilder({
+class SeparatedTextField extends StatefulWidget {
+  const SeparatedTextField({
     required this.textfieldCount,
     required this.onSubmit,
-    required this.charCount,
-    required this.border,
-    required this.borderRadius,
-    required this.fillColor,
-    required this.width,
-    required this.borderSide,
-    required this.textFieldSeparator,
-    required this.hintStyle,
-    required this.hintText,
-    required this.textStyle,
+    this.charCount = 1,
+    this.border,
+    this.borderRadius,
+    this.fillColor,
+    this.width,
+    this.borderSide,
+    this.textFieldSeparator,
+    this.hintStyle,
+    this.hintText,
+    this.textStyle,
     super.key,
   });
   final int textfieldCount;
@@ -33,10 +33,10 @@ class TextFieldBuilder extends StatefulWidget {
   final TextStyle? textStyle;
 
   @override
-  State<TextFieldBuilder> createState() => _TextFieldBuilderState();
+  State<SeparatedTextField> createState() => _SeparatedTextFieldState();
 }
 
-class _TextFieldBuilderState extends State<TextFieldBuilder> {
+class _SeparatedTextFieldState extends State<SeparatedTextField> {
   late List<TextEditingController> controllerList;
   late List<FocusNode> focusNodeList;
   late List<String> resultList;
@@ -137,7 +137,7 @@ class _TextFieldBuilderState extends State<TextFieldBuilder> {
         value: value,
         indexOfTextField: index,
       );
-    } else if (value.length > widget.charCount) {
+    }  else if (value.length > widget.charCount) {
       // set the previous textfield text by substring
       final newValue = value.substring(0, widget.charCount);
       final controller = controllerList[index];
